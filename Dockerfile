@@ -1,7 +1,12 @@
 FROM ubuntu:bionic
 MAINTAINER "Thomas Enzinger <info@thomas-enzinger.de>"
 
-ENV VERSION=2.15
+ARG VERSION
+ARG SOURCE_BRANCH
+ARG BUILD_DATE
+ARG SOURCE_COMMIT
+ARG DOCKERFILE_PATH
+ARG SOURCE_TYPE
 
 # install software
 RUN apt-get update                                        \
@@ -14,7 +19,7 @@ RUN apt-get update                                        \
       libcr-dev mpich mpich-doc                           \
       libgl1-mesa-dev libgl1-mesa-glx                     \
       freeglut3-dev freeglut3 mesa-common-dev             \
-      libxmu-dev libxmu-headers
+      libxmu-dev libxmu-headers libxi-dev
 
 # config os
 RUN useradd --user-group --create-home --shell /bin/bash calculix   \
@@ -29,7 +34,8 @@ RUN apt-get install -y                                                          
       python python-numpy python-scipy
 
 #
-COPY "data/cgx_{$VERSION}.bz2" /opt/
+COPY "data/cgx_$VERSION.bz2" /opt/
+COPY "data/cgx_$VERSION.all.tar.bz2" /opt/
 COPY scripts/install_calculix /opt/
 RUN /opt/install_calculix && rm -f /opt/install_calculix
 
@@ -43,7 +49,7 @@ USER calculix
 SHELL ["/bin/bash"]
 
 COPY scripts/entrypoint.sh /opt/
-#ENTRYPOINT ["/opt/entrypoint.sh"]
-#CMD []
+ENTRYPOINT ["/opt/entrypoint.sh"]
+CMD []
 
 

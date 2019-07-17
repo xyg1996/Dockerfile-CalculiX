@@ -2,10 +2,11 @@
 . ./hooks/env
 
 docker build \
-	--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"`    \
-	--build-arg "SOURCE_COMMIT=$GIT_SHA1"                     \
-	--build-arg "DOCKERFILE_PATH=$DOCKERFILE_PATH"            \
-	--build-arg "SOURCE_TYPE=$SOURCE_TYPE"                    \
-	--build-arg "VERSION=$VERSION"                            \
+	--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ`   \
+	--build-arg SOURCE_COMMIT=$GIT_SHA1                     \
+	--build-arg DOCKERFILE_PATH=$DOCKERFILE_PATH            \
+	--build-arg SOURCE_TYPE=$SOURCE_TYPE                    \
+	--build-arg VERSION=$VERSION                            \
+        --build-arg SOURCE_BRANCH=$SOURCE_BRANCH                \
 	-t $IMAGE_NAME .
 

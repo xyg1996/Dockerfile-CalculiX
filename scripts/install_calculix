@@ -1,7 +1,13 @@
 #!/bin/bash
 
-cd /opt
-bunzip2 "cgx_{$VERSION}.bz2"
-mv "cgx_{$VERSION}" /usr/local/bin/cgx
+cd /usr/local
+bunzip2 "cgx_$VERSION.all.tar.bz2"
+tar xfv "cgx_$VERSION.all.tar"
+cd "CalculiX/cgx_$VERSION/src"
+
+make
+cp cgx /usr/local/bin/
 chmod ao+rx /usr/local/bin/cgx
 
+cd /
+rm -Rf "/usr/local/CalculiX"
