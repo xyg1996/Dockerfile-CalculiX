@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cd /opt
+bunzip2 "cgx_{$VERSION}.bz2"
+mv "cgx_{$VERSION}" /usr/local/bin/cgx
+chmod ao+rx /usr/local/bin/cgx
+
