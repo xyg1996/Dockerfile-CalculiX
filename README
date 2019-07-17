@@ -1,0 +1,22 @@
+# CalculiX Docker image
+
+An CalculiX image which is mainly designed to execute CalculiX jobs.
+
+# Usage
+
+Executing an CalculiX case from the current directory:
+```bash
+cd path/to/case/dir
+docker container run -it --rm -v $PWD:/data tefe/calculix cgx parameters   
+```
+
+Get a bash:
+```bash
+docker container run -it --rm -v $PWD:/data tefe/openfoam bash    
+```
+
+**Notice**
+
+You can change ```$PWD``` to any directory or environment variable that contains the case files.
+
+
