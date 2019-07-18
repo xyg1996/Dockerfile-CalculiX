@@ -34,10 +34,10 @@ RUN apt-get install -y                                                          
       python python-numpy python-scipy
 
 #
-COPY "data/cgx_$VERSION.bz2" /opt/
-COPY "data/cgx_$VERSION.all.tar.bz2" /opt/
+COPY "data/cgx_$VERSION.bz2" /usr/local
+COPY "data/cgx_$VERSION.all.tar.bz2" /usr/local
 COPY scripts/install_calculix /opt/
-RUN /opt/install_calculix && rm -f /opt/install_calculix
+RUN /opt/install_calculix && rm -f /opt/install_calculix /usr/local/*.bz2
 
 # clean up
 RUN apt-get autoremove && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
