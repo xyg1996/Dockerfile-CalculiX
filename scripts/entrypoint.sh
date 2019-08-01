@@ -7,5 +7,5 @@ CMD="$@"
 export OMPI_MCA_btl_vader_single_copy_mechanism=none
 
 # execute command
-"$CMD"
+exec "$CMD"
 
