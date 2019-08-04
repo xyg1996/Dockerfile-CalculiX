@@ -2,16 +2,10 @@ FROM ubuntu:bionic
 MAINTAINER "Thomas Enzinger <info@thomas-enzinger.de>"
 
 ARG VERSION
-ARG SOURCE_BRANCH
-ARG BUILD_DATE
-ARG SOURCE_COMMIT
-ARG DOCKERFILE_PATH
-ARG SOURCE_TYPE
 
 # install software
 RUN apt-get update                                        \
- && apt-get upgrade -y                                    \
- && apt-get install -y                                    \
+ && apt-get install -y -f                                 \
       vim ssh sudo wget git                               \
       software-properties-common                          \
       locales bash-completion binutils coreutils          \
@@ -19,7 +13,12 @@ RUN apt-get update                                        \
       libcr-dev mpich mpich-doc                           \
       libgl1-mesa-dev libgl1-mesa-glx                     \
       freeglut3-dev freeglut3 mesa-common-dev             \
-      libxmu-dev libxmu-headers libxi-dev
+      libxmu-dev libxmu-headers libxi-dev                 \
+      build-essential cmake libopenmpi-dev openmpi-bin    \
+      autoconf autotools-dev                              \
+      libncurses-dev libgmp-dev libmpfr-dev libmpc-dev    \
+      python python-numpy python-scipy                    \
+ && rm -rf /var/lib/apt/lists/*
 
 # config os
 RUN useradd --user-group --create-home --shell /bin/bash calculix   \
@@ -27,29 +26,18 @@ RUN useradd --user-group --create-home --shell /bin/bash calculix   \
  && update-locale LANG=C.UTF-8 LC_MESSAGES=POSIX                    \
  && echo 127.0.1.1 $(hostname) >> /etc/hosts
 
-# OpenFoam Requirements
-RUN apt-get install -y                                                                   \
-      build-essential cmake libopenmpi-dev openmpi-bin autoconf autotools-dev            \
-      libncurses-dev libgmp-dev libmpfr-dev libmpc-dev                                   \
-      python python-numpy python-scipy
+SHELL ["/bin/bash", "-c"]
 
 #
-COPY "data/cgx_$VERSION.bz2" /usr/local
-COPY "data/cgx_$VERSION.all.tar.bz2" /usr/local
-COPY scripts/install_calculix /opt/
+COPY "data/cgx_$VERSION.*" /usr/local
+COPY scripts/* /opt/
 RUN /opt/install_calculix && rm -f /opt/install_calculix /usr/local/*.bz2
-
-# clean up
-RUN apt-get autoremove && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # setup run
 VOLUME ["/data"]
 WORKDIR /data
 USER calculix
-SHELL ["/bin/bash"]
 
-COPY scripts/entrypoint.sh /opt/
-ENTRYPOINT ["/opt/entrypoint.sh"]
-CMD []
-
+#
+ENTRYPOINT ["/bin/bash", "-ci"]
 
