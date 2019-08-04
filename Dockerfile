@@ -21,10 +21,13 @@ RUN apt-get update                                        \
  && rm -rf /var/lib/apt/lists/*
 
 # config os
-RUN useradd --user-group --create-home --shell /bin/bash calculix   \
- && echo "calculix ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers          \
- && update-locale LANG=C.UTF-8 LC_MESSAGES=POSIX                    \
- && echo 127.0.1.1 $(hostname) >> /etc/hosts
+RUN useradd --user-group --create-home --shell /bin/bash calculix                           \
+ && echo "calculix ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers                                  \
+ && update-locale LANG=C.UTF-8 LC_MESSAGES=POSIX                                            \
+ && echo 127.0.1.1 $(hostname) >> /etc/hosts                                                \
+ && echo "export OMPI_MCA_btl_vader_single_copy_mechanism=none" >> /root/.bashrc            \
+ && echo "export OMPI_MCA_btl_vader_single_copy_mechanism=none" >> /home/foam/.bashrc       \
+ && source /root/.bashrc
 
 SHELL ["/bin/bash", "-c"]
 
