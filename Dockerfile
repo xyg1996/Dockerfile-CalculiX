@@ -34,7 +34,7 @@ SHELL ["/bin/bash", "-c"]
 COPY "data/cgx_$VERSION.*" /usr/local/
 COPY scripts/* /opt/
 RUN                                                                                         \
- && /opt/install_calculix                                                                   \
+ /opt/install_calculix                                                                      \
  && rm -f /opt/install_calculix /usr/local/*.bz2
 
 # setup run
