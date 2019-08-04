@@ -31,7 +31,7 @@ RUN useradd --user-group --create-home --shell /bin/bash calculix               
 SHELL ["/bin/bash", "-c"]
 
 #
-COPY "data/cgx_$VERSION.*" /usr/local
+COPY "data/cgx_$VERSION.*" /usr/local/
 COPY scripts/* /opt/
 RUN                                                                                         \
  && /opt/install_calculix                                                                   \
